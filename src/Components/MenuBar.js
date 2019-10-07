@@ -11,7 +11,7 @@ const MenuBar = props => {
 
 	return (
 		<div>
-			<Menu pointing secondary color='green' size='massive'>
+			<Menu pointing secondary color='green' size='large'>
 				<Menu.Item
 					name='home'
 					active={activeItem === 'home'}
