@@ -9,7 +9,7 @@ const NotFound = ({ history }) => {
 		type: 'error',
 		title: 'Oops...Page not found!',
 		text: 'Something went wrong!',
-		html: 'You will be redirected to Home page in <strong>5</strong> seconds.',
+		html: 'You will be redirected to Home page in <strong></strong> seconds.',
 		imageUrl: NotFoundImg,
 		imageWidth: 400,
 		imageHeight: 200,
@@ -22,7 +22,7 @@ const NotFound = ({ history }) => {
 		onBeforeOpen: () => {
 			Swal.showLoading();
 			timerInterval = setInterval(() => {
-				Swal.getContent().getElementsByClassName('seconds').textContent = (
+				Swal.getContent().querySelector('strong').textContent = (
 					Swal.getTimerLeft() / 1000
 				).toFixed(0);
 			}, 100);
