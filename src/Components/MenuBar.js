@@ -12,9 +12,10 @@ const MenuBar = ({ history }) => {
 
 	return (
 		<div>
-			<Menu pointing secondary color='green' size='large'>
+			<Menu pointing secondary color='green' size='large' stackable={true}>
 				<Menu.Item
 					name='home'
+					icon='home'
 					active={activeItem === 'home'}
 					onClick={handleItemClick}
 					as={Link}
@@ -23,6 +24,7 @@ const MenuBar = ({ history }) => {
 				<Menu.Menu position='right'>
 					<Menu.Item
 						name='login'
+						icon='sign in'
 						active={activeItem === 'login'}
 						onClick={handleItemClick}
 						as={Link}
@@ -30,6 +32,7 @@ const MenuBar = ({ history }) => {
 					/>
 					<Menu.Item
 						name='register'
+						icon='user plus'
 						active={activeItem === 'register'}
 						onClick={handleItemClick}
 						as={Link}

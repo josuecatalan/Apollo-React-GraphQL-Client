@@ -8,6 +8,10 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import NotFound from './Pages/404';
 
+import 'semantic-ui-css/semantic.min.css';
+import 'animate.css/animate.min.css';
+import './App.css';
+
 const App = ({ history }) => (
 	<Router>
 		<Container>
