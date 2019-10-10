@@ -17,7 +17,7 @@ const PostCard = ({ date: { user, description, start_date, _id, likeCount, comme
 				<Image
 					floated='right'
 					size='mini'
-					src='https://react.semantic-ui.com/images/avatar/large/molly.png'
+					src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
 				/>
 				<Card.Header>{user}</Card.Header>
 				<Card.Meta as={Link} to={`/dates/${_id}`}>

@@ -4,3 +4,11 @@
 	font-size: 2rem;
 	margin-top: 10px;
 }
+.form-container {
+	width: 600px !important;
+	margin: auto !important;
+}
+.form-container-login {
+	width: 300px !important;
+	margin: auto !important;
+}
