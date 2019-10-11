@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
+import { AuthProvider } from './Context/Auth';
+import AuthRoute from './Utils/AuthRoute';
+
 import MenuBar from './Components/MenuBar';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
@@ -12,18 +15,20 @@ import 'semantic-ui-css/semantic.min.css';
 import 'animate.css/animate.min.css';
 import './App.css';
 
-const App = ({ history }) => (
-	<Router>
-		<Container>
-			<MenuBar />
-			<Switch>
-				<Route exact path='/' component={Home} />
-				<Route exact path='/login' component={Login} />
-				<Route exact path='/register' component={Register} />
-				<Route component={NotFound} />
-			</Switch>
-		</Container>
-	</Router>
+const App = props => (
+	<AuthProvider>
+		<Router>
+			<Container>
+				<MenuBar />
+				<Switch>
+					<Route exact path='/' component={Home} />
+					<AuthRoute exact path='/login' component={Login} />
+					<AuthRoute exact path='/register' component={Register} />
+					<Route component={NotFound} />
+				</Switch>
+			</Container>
+		</Router>
+	</AuthProvider>
 );
 
 export default App;

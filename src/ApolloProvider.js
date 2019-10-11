@@ -1,5 +1,6 @@
 import React from 'react';
 import App from './App';
+import ReactNotifications from 'react-notifications-component';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
@@ -16,6 +17,7 @@ const client = new ApolloClient({
 
 export default (
 	<ApolloProvider client={client}>
+		<ReactNotifications />
 		<App />
 	</ApolloProvider>
 );

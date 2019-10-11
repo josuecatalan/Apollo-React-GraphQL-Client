@@ -1,23 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { AuthContext } from '../Context/Auth';
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 import { useForm } from '../Utils/Hooks';
 
 const Login = props => {
+	const context = useContext(AuthContext);
 	const [errors, setErrors] = useState({});
 
-	///para hacer uppercase a los nombres: .val().replace(/\b[a-z]/g, c => c.toUpperCase())
-
 	const { handleChange, handleSubmit, values } = useForm(registerUserCallback, {
-		username: '',
-		password: ''
+		username: 'joshrod',
+		password: 'showdown'
 	});
 
 	const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-		update(_, result) {
+		update(
+			_,
+			{
+				data: { login: userData }
+			}
+		) {
+			context.login(userData);
 			props.history.push('/');
+
+			const { firstname, lastname } = userData;
+
+			store.addNotification({
+				title: `Welcome ${firstname + ' ' + lastname}!`,
+				message: "You're now online",
+				type: 'success',
+				insert: 'top',
+				showIcon: true,
+				container: 'bottom-right',
+				animationIn: ['animated', 'slideInRight'],
+				animationOut: ['animated', 'fadeOut'],
+				dismiss: {
+					duration: 4000,
+					onScreen: true,
+					pauseOnHover: true
+				}
+			});
 		},
 		onError(err) {
 			setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -30,7 +58,7 @@ const Login = props => {
 	}
 
 	return (
-		<div className='form-container-login'>
+		<div className='form-container-login app-container'>
 			<Form onSubmit={handleSubmit} noValidate className={loading ? 'loading' : ''}>
 				<h1 className='page-title'>Login Form</h1>
 				<Form.Group widths='equal'>

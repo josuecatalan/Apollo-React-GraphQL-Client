@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 
+import { AuthContext } from '../Context/Auth';
 import { useForm } from '../Utils/Hooks';
 
 const Register = props => {
+	const context = useContext(AuthContext);
 	const [errors, setErrors] = useState({});
 
 	const rangeOptions = [
@@ -34,8 +39,32 @@ const Register = props => {
 	});
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
-		update(_, result) {
+		update(
+			_,
+			{
+				data: { register: userData }
+			}
+		) {
+			context.login(userData);
 			props.history.push('/');
+
+			const { username } = userData;
+
+			store.addNotification({
+				title: `Your Username ${username} are registered!`,
+				message: "And now you're online",
+				type: 'info',
+				insert: 'top',
+				showIcon: true,
+				container: 'top-center',
+				animationIn: ['animated', 'slideInDown'],
+				animationOut: ['animated', 'slideOutUp'],
+				dismiss: {
+					duration: 4000,
+					onScreen: true,
+					pauseOnHover: true
+				}
+			});
 		},
 		onError(err) {
 			setErrors(err.graphQLErrors[0].extensions.exception.errors);
