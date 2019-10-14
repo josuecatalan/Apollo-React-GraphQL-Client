@@ -17,17 +17,17 @@ function PostForm({ history }) {
 			.format('YYYY-MM-DDTHH:mm:ss'),
 		body: '',
 		className: 'Amarillo',
-		pacient: '5d4afe4b0149185384e284f5' //all of this data is pre-defined to save time...
+		pacient: '5d4afe4b0149185384e284f5' /// NOTE: all of this data is pre-defined to save time...
 	});
 
-	const [createPost] = useMutation(CREATE_POST_MUTATION, {
+	const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
 		variables: values,
-		update(dataProxy, result) {
-			const data = dataProxy.readQuery({
+		update(proxy, result) {
+			const data = proxy.readQuery({
 				query: FETCH_POSTS_QUERY
 			});
 			data.getDates = [result.data.createDate, ...data.getDates];
-			dataProxy.writeQuery({
+			proxy.writeQuery({
 				query: FETCH_POSTS_QUERY,
 				data
 			});
@@ -35,7 +35,7 @@ function PostForm({ history }) {
 		}
 	});
 
-	//FIXME: make the 'Home' page show the new date added.
+	///FIXME: make the 'Home' page show the new date added.
 
 	function createPostCallback() {
 		createPost();
@@ -53,6 +53,7 @@ function PostForm({ history }) {
 						rows='2'
 						onChange={handleChange}
 						value={values.body}
+						error={error ? true : false}
 					/>
 					<Form.Input
 						fluid
@@ -117,6 +118,13 @@ function PostForm({ history }) {
 					<Form.Button type='submit' color='teal' content='Submit' icon='edit' />
 				</Form.Field>
 			</Form>
+			{error && (
+				<div className='ui error message' style={{ marginBottom: 20 }}>
+					<ul className='list'>
+						<li>{error.graphQLErrors[0].message}</li>
+					</ul>
+				</div>
+			)}
 		</div>
 	);
 }

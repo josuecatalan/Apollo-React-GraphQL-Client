@@ -15,7 +15,7 @@ const MenuBar = props => {
 
 	const menuBar = user ? (
 		<div>
-			<Menu pointing secondary color='teal' size='massive' stackable={true}>
+			<Menu pointing secondary color='teal' size='large' stackable={true}>
 				<Menu.Item
 					name={user.firstname + ' ' + user.lastname}
 					icon={user.usericon}

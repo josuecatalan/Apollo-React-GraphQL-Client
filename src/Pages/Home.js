@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Transition } from 'semantic-ui-react';
 
 import { AuthContext } from '../Context/Auth';
 import Loading from '../Components/Loading';
@@ -9,15 +9,13 @@ import PostForm from '../Components/PostForm';
 import { FETCH_POSTS_QUERY } from '../Utils/GraphQL';
 
 const Home = props => {
-	const { user } = useContext(AuthContext);
-	const { loading, data } = useQuery(FETCH_POSTS_QUERY);
-
 	const [dates, setDates] = useState([]);
-	useEffect(() => {
-		if (data) {
+	const { user } = useContext(AuthContext);
+	const { loading, data } = useQuery(FETCH_POSTS_QUERY, {
+		onCompleted() {
 			setDates(data.getDates);
 		}
-	}, [data]);
+	});
 
 	return (
 		<Grid columns={3} stackable={true} className={loading ? 'loading' : ''}>
@@ -33,12 +31,14 @@ const Home = props => {
 				{loading ? (
 					<Loading />
 				) : (
-					dates &&
-					dates.map(date => (
-						<Grid.Column key={date._id} style={{ marginBottom: 20 }}>
-							<PostCard date={date} />
-						</Grid.Column>
-					))
+					<Transition.Group animation='scale' duration={300}>
+						{dates &&
+							dates.map(date => (
+								<Grid.Column key={date._id} style={{ marginBottom: 20 }}>
+									<PostCard date={date} />
+								</Grid.Column>
+							))}
+					</Transition.Group>
 				)}
 			</Grid.Row>
 		</Grid>
