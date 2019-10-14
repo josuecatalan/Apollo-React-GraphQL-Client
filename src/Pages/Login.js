@@ -10,7 +10,7 @@ import 'animate.css';
 
 import { useForm } from '../Utils/Hooks';
 
-const Login = props => {
+function Login(props) {
 	const context = useContext(AuthContext);
 	const [errors, setErrors] = useState({});
 
@@ -104,7 +104,7 @@ const Login = props => {
 			)}
 		</div>
 	);
-};
+}
 
 const LOGIN_USER = gql`
 	mutation login($username: String!, $password: String!) {

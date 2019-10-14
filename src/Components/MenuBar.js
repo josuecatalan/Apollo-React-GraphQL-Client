@@ -15,7 +15,7 @@ const MenuBar = props => {
 
 	const menuBar = user ? (
 		<div>
-			<Menu pointing secondary color='green' size='large' stackable={true}>
+			<Menu pointing secondary color='teal' size='massive' stackable={true}>
 				<Menu.Item
 					name={user.firstname + ' ' + user.lastname}
 					icon={user.usericon}
@@ -24,13 +24,13 @@ const MenuBar = props => {
 					to='/'
 				/>
 				<Menu.Menu position='right'>
-					<Menu.Item name='logout' icon='sign out' onClick={logout} />
+					<Menu.Item name='logout' icon='sign out' onClick={logout} color='red' />
 				</Menu.Menu>
 			</Menu>
 		</div>
 	) : (
 		<div>
-			<Menu pointing secondary color='green' size='large' stackable={true}>
+			<Menu pointing secondary color='teal' size='massive' stackable={true}>
 				<Menu.Item
 					name='home'
 					icon='home'

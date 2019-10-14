@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/es';
 
-const PostCard = ({ date: { user, description, start_date, _id, likeCount, commentCount } }) => {
+function PostCard({
+	date: { user, username, description, createdAt, _id, likeCount, commentCount }
+}) {
 	const likeDate = () => {
 		console.log('Liked!!!');
 	};
@@ -19,9 +21,12 @@ const PostCard = ({ date: { user, description, start_date, _id, likeCount, comme
 					size='mini'
 					src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
 				/>
-				<Card.Header>{user}</Card.Header>
+				<Card.Header as={Link} to={`/users/@${username}`}>
+					{`${user} (@${username}) `}
+				</Card.Header>
+				<Card.Meta></Card.Meta>
 				<Card.Meta as={Link} to={`/dates/${_id}`}>
-					{moment(start_date).fromNow(true)}
+					{moment(createdAt).fromNow()}
 				</Card.Meta>
 				<Card.Description>{description}</Card.Description>
 			</Card.Content>
@@ -45,6 +50,6 @@ const PostCard = ({ date: { user, description, start_date, _id, likeCount, comme
 			</Card.Content>
 		</Card>
 	);
-};
+}
 
 export default PostCard;
