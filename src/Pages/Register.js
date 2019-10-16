@@ -9,7 +9,7 @@ import 'animate.css';
 import { AuthContext } from '../Context/Auth';
 import { useForm } from '../Utils/Hooks';
 
-function Register(props) {
+const Register = props => {
 	const context = useContext(AuthContext);
 	const [errors, setErrors] = useState({});
 
@@ -194,7 +194,7 @@ function Register(props) {
 			)}
 		</div>
 	);
-}
+};
 
 const REGISTER_USER = gql`
 	mutation register(

@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import NotFoundImg from '../Images/404.png';
 
-function NotFound({ history }) {
+const NotFound = ({ history }) => {
 	const MySwal = withReactContent(Swal);
 	let timerInterval;
 	MySwal.fire({
@@ -34,6 +34,6 @@ function NotFound({ history }) {
 		}
 	});
 	return null;
-}
+};
 
 export default NotFound;

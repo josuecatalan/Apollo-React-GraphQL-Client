@@ -7,9 +7,9 @@ import 'moment/locale/es';
 import { AuthContext } from '../Context/Auth';
 import LikeButton from './LikeButton';
 
-function PostCard({
+const PostCard = ({
 	date: { nameString, username, description, createdAt, likes, _id, likeCount, commentCount }
-}) {
+}) => {
 	const { user } = useContext(AuthContext);
 
 	return (
@@ -58,6 +58,6 @@ function PostCard({
 			</Card.Content>
 		</Card>
 	);
-}
+};
 
 export default PostCard;
