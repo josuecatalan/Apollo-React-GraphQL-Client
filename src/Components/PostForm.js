@@ -8,7 +8,7 @@ import 'moment/locale/es';
 import { useForm } from '../Utils/Hooks';
 import { FETCH_POSTS_QUERY } from '../Utils/GraphQL';
 
-function PostForm({ history }) {
+const PostForm = props => {
 	const { values, handleChange, handleSubmit } = useForm(createPostCallback, {
 		title: 'Example Title',
 		startDate: moment().format('YYYY-MM-DDTHH:mm:ss'),
@@ -26,16 +26,14 @@ function PostForm({ history }) {
 			const data = proxy.readQuery({
 				query: FETCH_POSTS_QUERY
 			});
-			data.getDates = [result.data.createDate, ...data.getDates];
+			const new_post = result.data.createDate;
 			proxy.writeQuery({
 				query: FETCH_POSTS_QUERY,
-				data
+				data: { getDates: [new_post, ...data.getDates] }
 			});
 			values.body = '';
 		}
 	});
-
-	///FIXME: make the 'Home' page show the new date added.
 
 	function createPostCallback() {
 		createPost();
@@ -127,7 +125,7 @@ function PostForm({ history }) {
 			)}
 		</div>
 	);
-}
+};
 
 const CREATE_POST_MUTATION = gql`
 	mutation createDate(
@@ -153,13 +151,13 @@ const CREATE_POST_MUTATION = gql`
 			start_date
 			end_date
 			description
-			user
+			nameString
 			username
 			createdAt
 			likeCount
 			likes {
-				id
-				user
+				_id
+				nameString
 				username
 				createdAt
 			}
@@ -167,7 +165,7 @@ const CREATE_POST_MUTATION = gql`
 			comments {
 				_id
 				body
-				user
+				nameString
 				username
 				createdAt
 			}

@@ -1,21 +1,16 @@
 import React, { useContext } from 'react';
-import { Card, Image, Button, Icon, Label } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/es';
 
 import { AuthContext } from '../Context/Auth';
+import LikeButton from './LikeButton';
 
 function PostCard({
-	date: { user, username, description, createdAt, _id, likeCount, commentCount }
+	date: { nameString, username, description, createdAt, likes, _id, likeCount, commentCount }
 }) {
-	const {
-		user: { username: userId }
-	} = useContext(AuthContext);
-
-	const likeDate = () => {
-		console.log('Liked!!!');
-	};
+	const { user } = useContext(AuthContext);
 
 	return (
 		<Card fluid>
@@ -25,8 +20,8 @@ function PostCard({
 					size='mini'
 					src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
 				/>
-				<Card.Header as={Link} to={`/users/@${username}`}>
-					{`${user} (@${username}) `}
+				<Card.Header as={Link} to={`/users/${username}`}>
+					{`${nameString} (@${username}) `}
 				</Card.Header>
 				<Card.Meta></Card.Meta>
 				<Card.Meta as={Link} to={`/dates/${_id}`}>
@@ -35,24 +30,30 @@ function PostCard({
 				<Card.Description>{description}</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
-				<Button as='div' labelPosition='right' onClick={likeDate}>
-					<Button color='teal' basic>
-						<Icon name='heart' />
-					</Button>
-					<Label as='a' basic color='teal' pointing='left'>
-						{likeCount}
-					</Label>
-				</Button>
-				<Button as='div' labelPosition='right' as={Link} to={`/dates/${_id}`}>
-					<Button color='blue' basic>
-						<Icon name='comments' />
-					</Button>
-					<Label as='a' basic color='blue' pointing='left'>
-						{commentCount}
-					</Label>
-				</Button>
-				{userId && userId === username && (
-					<Button as='div' color='red' icon='trash' onClick={() => console.log('Delete Post')} />
+				<LikeButton user={user} post={{ _id, likes, likeCount }} />
+				<Button
+					basic
+					as={Link}
+					content=''
+					to={`/dates/${_id}`}
+					color='blue'
+					icon='comments'
+					label={{
+						basic: true,
+						color: 'blue',
+						pointing: 'left',
+						content: commentCount
+					}}
+				/>
+				{user && user.username === username && (
+					<Button
+						floated='right'
+						color='red'
+						icon='trash'
+						onClick={() => {
+							console.log('Delete Date!');
+						}}
+					/>
 				)}
 			</Card.Content>
 		</Card>

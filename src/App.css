@@ -12,3 +12,11 @@
 	width: 300px !important;
 	margin: auto !important;
 }
+.ui.teal.button:hover,
+.ui.teal.buttons .button:hover {
+	background-color: #00b5ad;
+}
+.ui.teal.button:focus,
+.ui.teal.buttons .button:focus {
+	background-color: #00b5ad;
+}

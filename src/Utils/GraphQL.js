@@ -8,13 +8,13 @@ export const FETCH_POSTS_QUERY = gql`
 			start_date
 			end_date
 			description
-			user
+			nameString
 			username
 			createdAt
 			likeCount
 			likes {
-				id
-				user
+				_id
+				nameString
 				username
 				createdAt
 			}
@@ -22,7 +22,7 @@ export const FETCH_POSTS_QUERY = gql`
 			comments {
 				_id
 				body
-				user
+				nameString
 				username
 				createdAt
 			}

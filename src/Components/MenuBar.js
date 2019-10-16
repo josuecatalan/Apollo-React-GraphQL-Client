@@ -30,7 +30,7 @@ const MenuBar = props => {
 		</div>
 	) : (
 		<div>
-			<Menu pointing secondary color='teal' size='massive' stackable={true}>
+			<Menu pointing secondary color='teal' size='large' stackable={true}>
 				<Menu.Item
 					name='home'
 					icon='home'

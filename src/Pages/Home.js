@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Grid, Transition } from 'semantic-ui-react';
 
@@ -11,11 +11,12 @@ import { FETCH_POSTS_QUERY } from '../Utils/GraphQL';
 const Home = props => {
 	const [dates, setDates] = useState([]);
 	const { user } = useContext(AuthContext);
-	const { loading, data } = useQuery(FETCH_POSTS_QUERY, {
-		onCompleted() {
+	const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+	useEffect(() => {
+		if (data) {
 			setDates(data.getDates);
 		}
-	});
+	}, [data]);
 
 	return (
 		<Grid columns={3} stackable={true} className={loading ? 'loading' : ''}>
