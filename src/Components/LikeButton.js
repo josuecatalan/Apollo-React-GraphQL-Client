@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 
 import { Button, Icon, Label } from 'semantic-ui-react';
 
-const LikeButton = ({ user, post: { _id, likes, likeCount } }) => {
+const LikeButton = ({ user, date: { _id, likes, likeCount } }) => {
 	const [liked, setLiked] = useState(false);
 
 	useEffect(() => {

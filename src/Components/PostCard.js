@@ -6,6 +6,7 @@ import 'moment/locale/es';
 
 import { AuthContext } from '../Context/Auth';
 import LikeButton from './LikeButton';
+import DeleteButton from './DeleteButton';
 
 const PostCard = ({
 	date: { nameString, username, description, createdAt, likes, _id, likeCount, commentCount }
@@ -23,14 +24,13 @@ const PostCard = ({
 				<Card.Header as={Link} to={`/users/${username}`}>
 					{`${nameString} (@${username}) `}
 				</Card.Header>
-				<Card.Meta></Card.Meta>
 				<Card.Meta as={Link} to={`/dates/${_id}`}>
 					{moment(createdAt).fromNow()}
 				</Card.Meta>
 				<Card.Description>{description}</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
-				<LikeButton user={user} post={{ _id, likes, likeCount }} />
+				<LikeButton user={user} date={{ _id, likes, likeCount }} />
 				<Button
 					basic
 					as={Link}
@@ -45,16 +45,7 @@ const PostCard = ({
 						content: commentCount
 					}}
 				/>
-				{user && user.username === username && (
-					<Button
-						floated='right'
-						color='red'
-						icon='trash'
-						onClick={() => {
-							console.log('Delete Date!');
-						}}
-					/>
-				)}
+				{user && user.username === username && <DeleteButton dateId={{ _id }} />}
 			</Card.Content>
 		</Card>
 	);
