@@ -19,7 +19,7 @@ const PostCard = ({
 				<Image
 					floated='right'
 					size='mini'
-					src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
+					src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
 				/>
 				<Card.Header as={Link} to={`/users/${username}`}>
 					{`${nameString} (@${username}) `}
