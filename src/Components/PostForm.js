@@ -87,11 +87,14 @@ const PostForm = props => {
 									on='click'
 								>
 									<Picker
-										native
+										set='apple'
 										showSkinTones={false}
 										showPreview={false}
 										onSelect={e => {
-											let emoji = e.native;
+											let sym = e.unified.split('-');
+											let codesArray = [];
+											sym.forEach(el => codesArray.push('0x' + el));
+											let emoji = String.fromCodePoint(...codesArray);
 											let post = text.content;
 											setText({
 												content: post + emoji
