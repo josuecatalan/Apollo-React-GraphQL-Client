@@ -102,6 +102,27 @@ const SinglePost = props => {
 								{user && user.username === username && (
 									<DeleteButton dateId={{ _id }} callback={deletePostCallback} />
 								)}
+								{!user && (
+									<>
+										<h4>Please Login/Register to Comment or Like this Post</h4>
+										<Button
+											compact
+											as={Link}
+											to='/login'
+											content='Login Page'
+											icon='sign in'
+											color='blue'
+										/>
+										<Button
+											compact
+											as={Link}
+											to='/register'
+											content='Register Page'
+											icon='user plus'
+											color='green'
+										/>
+									</>
+								)}
 							</Card.Content>
 						</Card>
 						{user && (
@@ -123,7 +144,7 @@ const SinglePost = props => {
 										>
 											<input />
 											<Popup
-												position='bottom left'
+												position='right center'
 												trigger={
 													<Button
 														floated='left'
@@ -140,9 +161,14 @@ const SinglePost = props => {
 												on='click'
 											>
 												<Picker
-													set='emojione'
+													native
+													showSkinTones={false}
+													showPreview={false}
 													onSelect={e => {
-														let emoji = e.native;
+														let sym = e.unified.split('-');
+														let codesArray = [];
+														sym.forEach(el => codesArray.push('0x' + el));
+														let emoji = String.fromCodePoint(...codesArray);
 														let body = comment.text;
 														setComment({
 															text: body + emoji

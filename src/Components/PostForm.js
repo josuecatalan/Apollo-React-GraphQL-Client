@@ -87,7 +87,7 @@ const PostForm = props => {
 									on='click'
 								>
 									<Picker
-										set='apple'
+										native
 										showSkinTones={false}
 										showPreview={false}
 										onSelect={e => {
