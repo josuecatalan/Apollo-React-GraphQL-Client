@@ -1,8 +1,10 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
-import { Grid, Form, Image, Card, Button } from 'semantic-ui-react';
+import { Grid, Popup, Transition, Form, Image, Card, Button } from 'semantic-ui-react';
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
 import moment from 'moment';
 import 'moment/locale/es';
 
@@ -14,7 +16,9 @@ import DeleteButton from '../Components/DeleteButton';
 const SinglePost = props => {
 	const dateID = props.match.params.dateId;
 	const { user } = useContext(AuthContext);
-	const [comment, setComment] = useState('');
+	const [comment, setComment] = useState({
+		text: ''
+	});
 	let postMarkup;
 
 	const { loading, data } = useQuery(FETCH_POST_QUERY, {
@@ -25,16 +29,15 @@ const SinglePost = props => {
 
 	const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
 		update() {
-			setComment('');
-			commentInputRef.current.blur();
+			setComment({
+				text: ''
+			});
 		},
 		variables: {
 			dateID,
-			body: comment
+			body: comment.text
 		}
 	});
-
-	const commentInputRef = useRef(null);
 
 	function deletePostCallback() {
 		props.history.push('/');
@@ -77,17 +80,24 @@ const SinglePost = props => {
 							<hr />
 							<Card.Content extra>
 								<LikeButton user={user} date={{ _id, likes, likeCount }} />
-								<Button
-									basic
-									content=''
-									color='blue'
-									icon='comments'
-									label={{
-										basic: true,
-										color: 'blue',
-										pointing: 'left',
-										content: commentCount
-									}}
+								<Popup
+									inverted
+									content='Comments on this post'
+									position='top right'
+									trigger={
+										<Button
+											basic
+											content=''
+											color='blue'
+											icon='comments'
+											label={{
+												basic: true,
+												color: 'blue',
+												pointing: 'left',
+												content: commentCount
+											}}
+										/>
+									}
 								/>
 								{user && user.username === username && (
 									<DeleteButton dateId={{ _id }} callback={deletePostCallback} />
@@ -104,19 +114,50 @@ const SinglePost = props => {
 											type='text'
 											placeholder='comment..'
 											name='comment'
-											value={comment}
-											onChange={event => setComment(event.target.value)}
-											ref={commentInputRef}
-											action
+											value={comment.text}
+											onChange={event =>
+												setComment({
+													text: event.target.value
+												})
+											}
 										>
 											<input />
+											<Popup
+												position='bottom left'
+												trigger={
+													<Button
+														floated='left'
+														icon={{
+															name: 'smile outline',
+															color: 'black',
+															size: 'large'
+														}}
+														size='small'
+														compact
+													/>
+												}
+												flowing
+												on='click'
+											>
+												<Picker
+													set='emojione'
+													onSelect={e => {
+														let emoji = e.native;
+														let body = comment.text;
+														setComment({
+															text: body + emoji
+														});
+													}}
+													title='Select an Emoji'
+												/>
+											</Popup>
 											<Button
 												type='submit'
 												content='Submit'
 												size='small'
 												icon='comment alternate'
 												color='teal'
-												disabled={comment.trim() === '' ? true : false}
+												disabled={comment.text === '' ? true : false}
 												onClick={submitComment}
 											/>
 										</Form.Input>
@@ -125,18 +166,20 @@ const SinglePost = props => {
 							</Card>
 						)}
 						{comments.map(comment => (
-							<Card fluid key={comment._id}>
-								<Card.Content>
-									{user && user.username === comment.username && (
-										<DeleteButton dateId={{ _id }} commentId={comment._id} />
-									)}
-									<Card.Header as={Link} to={`/users/${comment.username}`}>
-										{`${comment.nameString} (@${comment.username}) `}
-									</Card.Header>
-									<Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
-									<Card.Description>{comment.body}</Card.Description>
-								</Card.Content>
-							</Card>
+							<Transition.Group key={comment._id} animation='fadeInDown' duration={300}>
+								<Card fluid>
+									<Card.Content>
+										{user && user.username === comment.username && (
+											<DeleteButton dateId={{ _id }} commentId={comment._id} />
+										)}
+										<Card.Header as={Link} to={`/users/${comment.username}`}>
+											{`${comment.nameString} (@${comment.username}) `}
+										</Card.Header>
+										<Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
+										<Card.Description>{comment.body}</Card.Description>
+									</Card.Content>
+								</Card>
+							</Transition.Group>
 						))}
 					</Grid.Column>
 				</Grid.Row>
