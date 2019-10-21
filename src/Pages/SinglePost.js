@@ -12,6 +12,8 @@ import { AuthContext } from '../Context/Auth';
 import Loading from '../Components/Loading';
 import MyPopup from '../Components/MyPopup';
 import LikeButton from '../Components/LikeButton';
+import LikersList from '../Components/LikersList';
+import CommentButton from '../Components/CommentButton';
 import DeleteButton from '../Components/DeleteButton';
 
 const SinglePost = props => {
@@ -88,18 +90,7 @@ const SinglePost = props => {
 									flowing={true}
 									inverted={true}
 								>
-									<Button
-										basic
-										content=''
-										color='blue'
-										icon='comments'
-										label={{
-											basic: true,
-											color: 'blue',
-											pointing: 'left',
-											content: commentCount
-										}}
-									/>
+									<CommentButton commentCount={commentCount} />
 								</MyPopup>
 								{user && user.username === username && (
 									<DeleteButton dateId={{ _id }} callback={deletePostCallback} />
@@ -125,6 +116,7 @@ const SinglePost = props => {
 										/>
 									</>
 								)}
+								{user && <LikersList user={user} likes={likes} />}
 							</Card.Content>
 						</Card>
 						{user && (
@@ -152,9 +144,8 @@ const SinglePost = props => {
 												content={
 													<Picker
 														native
-														perLine={9}
-														sheetSize={32}
-														emojiSize={24}
+														showSkinTones={false}
+														showPreview={false}
 														color='#00B5AD'
 														title='Skin tone'
 														emoji='point_right'

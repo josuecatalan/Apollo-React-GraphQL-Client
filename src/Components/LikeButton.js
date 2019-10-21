@@ -38,24 +38,20 @@ const LikeButton = ({ user, date: { _id, likes, likeCount } }) => {
 	);
 
 	return (
-		<Button
-			as='div'
-			labelPosition='right'
-			onClick={() => {
-				likeDate();
-			}}
-		>
-			<MyPopup
-				content={user && liked ? 'Unlike Post' : 'Like Post'}
-				side={'top left'}
-				invert={true}
+		<MyPopup content={user && liked ? 'Unlike Post' : 'Like Post'} side={'top left'} invert={true}>
+			<Button
+				as='div'
+				labelPosition='right'
+				onClick={() => {
+					likeDate();
+				}}
 			>
 				{likeButton}
-			</MyPopup>
-			<Label as='a' basic color='teal' pointing='left'>
-				{likeCount}
-			</Label>
-		</Button>
+				<Label as='a' basic color='teal' pointing='left'>
+					{likeCount}
+				</Label>
+			</Button>
+		</MyPopup>
 	);
 };
 
