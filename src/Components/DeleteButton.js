@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { Button, Popup, Confirm } from 'semantic-ui-react';
+import { Button, Confirm } from 'semantic-ui-react';
+import MyPopup from './MyPopup';
 
 import { FETCH_POSTS_QUERY } from '../Utils/GraphQL';
 
@@ -37,22 +38,21 @@ const DeleteButton = ({ dateId, commentId, callback }) => {
 
 	return (
 		<>
-			<Popup
-				inverted
+			<MyPopup
 				content={`Delete ${commentId ? 'Comment' : 'Post'}`}
-				position='top left'
-				trigger={
-					<Button
-						circular={commentId ? true : false}
-						compact={commentId ? false : true}
-						floated='right'
-						color='red'
-						icon={commentId ? 'eraser' : 'trash'}
-						onClick={() => setConfirmOpen(true)}
-						size={commentId ? 'mini' : 'small'}
-					/>
-				}
-			/>
+				side={commentId ? 'left center' : 'top right'}
+				invert={true}
+			>
+				<Button
+					circular={commentId ? true : false}
+					compact={commentId ? false : true}
+					floated='right'
+					color='red'
+					icon={commentId ? 'eraser' : 'trash'}
+					onClick={() => setConfirmOpen(true)}
+					size={commentId ? 'mini' : 'small'}
+				/>
+			</MyPopup>
 			<Confirm
 				header='Are you sure?'
 				size='small'

@@ -2,14 +2,15 @@ import React, { useContext, useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
-import { Grid, Popup, Transition, Form, Image, Card, Button } from 'semantic-ui-react';
+import { Grid, Transition, Form, Image, Card, Button } from 'semantic-ui-react';
 import 'emoji-mart/css/emoji-mart.css';
-import { Picker } from 'emoji-mart';
+import { Picker } from 'emoji-mart/dist-modern/index.js';
 import moment from 'moment';
 import 'moment/locale/es';
 
 import { AuthContext } from '../Context/Auth';
 import Loading from '../Components/Loading';
+import MyPopup from '../Components/MyPopup';
 import LikeButton from '../Components/LikeButton';
 import DeleteButton from '../Components/DeleteButton';
 
@@ -80,25 +81,26 @@ const SinglePost = props => {
 							<hr />
 							<Card.Content extra>
 								<LikeButton user={user} date={{ _id, likes, likeCount }} />
-								<Popup
-									inverted
-									content='Comments on this post'
-									position='top right'
-									trigger={
-										<Button
-											basic
-											content=''
-											color='blue'
-											icon='comments'
-											label={{
-												basic: true,
-												color: 'blue',
-												pointing: 'left',
-												content: commentCount
-											}}
-										/>
-									}
-								/>
+								<MyPopup
+									content={'Comments on this post'}
+									side={'right center'}
+									width={'very'}
+									flowing={true}
+									inverted={true}
+								>
+									<Button
+										basic
+										content=''
+										color='blue'
+										icon='comments'
+										label={{
+											basic: true,
+											color: 'blue',
+											pointing: 'left',
+											content: commentCount
+										}}
+									/>
+								</MyPopup>
 								{user && user.username === username && (
 									<DeleteButton dateId={{ _id }} callback={deletePostCallback} />
 								)}
@@ -143,40 +145,43 @@ const SinglePost = props => {
 											}
 										>
 											<input />
-											<Popup
-												position='right center'
-												trigger={
-													<Button
-														floated='left'
-														icon={{
-															name: 'smile outline',
-															color: 'black',
-															size: 'large'
+											<MyPopup
+												side={'right center'}
+												caller={'click'}
+												anchor={false}
+												content={
+													<Picker
+														native
+														perLine={9}
+														sheetSize={32}
+														emojiSize={24}
+														color='#00B5AD'
+														title='Skin tone'
+														emoji='point_right'
+														onSelect={e => {
+															let sym = e.unified.split('-');
+															let codesArray = [];
+															sym.forEach(el => codesArray.push('0x' + el));
+															let emoji = String.fromCodePoint(...codesArray);
+															let body = comment.text;
+															setComment({
+																text: body + emoji
+															});
 														}}
-														size='small'
-														compact
 													/>
 												}
-												flowing
-												on='click'
 											>
-												<Picker
-													native
-													showSkinTones={false}
-													showPreview={false}
-													onSelect={e => {
-														let sym = e.unified.split('-');
-														let codesArray = [];
-														sym.forEach(el => codesArray.push('0x' + el));
-														let emoji = String.fromCodePoint(...codesArray);
-														let body = comment.text;
-														setComment({
-															text: body + emoji
-														});
+												<Button
+													floated='left'
+													icon={{
+														name: 'smile outline',
+														color: 'black',
+														size: 'large'
 													}}
-													title='Select an Emoji'
+													size='small'
+													compact
 												/>
-											</Popup>
+											</MyPopup>
 											<Button
 												type='submit'
 												content='Submit'

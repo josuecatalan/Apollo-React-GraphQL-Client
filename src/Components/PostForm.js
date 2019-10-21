@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Popup, Input, Button, Card } from 'semantic-ui-react';
+import { Form, Input, Button, Card } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import 'emoji-mart/css/emoji-mart.css';
@@ -7,6 +7,7 @@ import { Picker } from 'emoji-mart';
 import moment from 'moment';
 import 'moment/locale/es';
 
+import MyPopup from '../Components/MyPopup';
 import { useForm } from '../Utils/Hooks';
 import { FETCH_POSTS_QUERY } from '../Utils/GraphQL';
 
@@ -68,41 +69,41 @@ const PostForm = props => {
 									value={text.content}
 									error={error ? true : false}
 								/>
-								<Popup
-									position='bottom left'
-									trigger={
-										<Button
-											floated='left'
-											icon={{
-												name: 'smile outline',
-												color: 'black',
-												size: 'large'
+								<MyPopup
+									side={'bottom left'}
+									caller={'click'}
+									anchor={false}
+									content={
+										<Picker
+											native
+											showSkinTones={false}
+											showPreview={false}
+											onSelect={e => {
+												let sym = e.unified.split('-');
+												let codesArray = [];
+												sym.forEach(el => codesArray.push('0x' + el));
+												let emoji = String.fromCodePoint(...codesArray);
+												let post = text.content;
+												setText({
+													content: post + emoji
+												});
 											}}
-											size='small'
-											onClick={e => e.preventDefault()}
-											compact
+											onChange={handleChange}
 										/>
 									}
-									flowing
-									on='click'
 								>
-									<Picker
-										native
-										showSkinTones={false}
-										showPreview={false}
-										onSelect={e => {
-											let sym = e.unified.split('-');
-											let codesArray = [];
-											sym.forEach(el => codesArray.push('0x' + el));
-											let emoji = String.fromCodePoint(...codesArray);
-											let post = text.content;
-											setText({
-												content: post + emoji
-											});
+									<Button
+										floated='left'
+										icon={{
+											name: 'smile outline',
+											color: 'black',
+											size: 'large'
 										}}
-										onChange={handleChange}
+										size='small'
+										onClick={e => e.preventDefault()}
+										compact
 									/>
-								</Popup>
+								</MyPopup>
 							</Form.Input>
 							<Form.Input
 								fluid

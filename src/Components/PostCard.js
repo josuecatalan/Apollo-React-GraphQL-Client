@@ -1,19 +1,13 @@
 import React, { useContext } from 'react';
-import { Card, Popup, Image, Button } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/es';
 
 import { AuthContext } from '../Context/Auth';
+import MyPopup from './MyPopup';
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
-
-// const style = {
-// 	borderRadius: 15,
-// 	backgroundColor: 'teal',
-// 	color: 'white',
-// 	boxShadow: 10
-// };
 
 const PostCard = ({
 	date: { nameString, username, description, createdAt, likes, _id, likeCount, commentCount }
@@ -38,27 +32,28 @@ const PostCard = ({
 			</Card.Content>
 			<Card.Content extra>
 				<LikeButton user={user} date={{ _id, likes, likeCount }} />
-				<Popup
-					inverted
-					content='Comment on post'
-					position='top left'
-					trigger={
-						<Button
-							basic
-							as={Link}
-							content=''
-							to={`/dates/${_id}`}
-							color='blue'
-							icon='comments'
-							label={{
-								basic: true,
-								color: 'blue',
-								pointing: 'left',
-								content: commentCount
-							}}
-						/>
-					}
-				/>
+				<MyPopup
+					content={'Comment on post'}
+					side={'right center'}
+					inverted={true}
+					width={'very'}
+					flowing={true}
+				>
+					<Button
+						basic
+						as={Link}
+						content=''
+						to={`/dates/${_id}`}
+						color='blue'
+						icon='comments'
+						label={{
+							basic: true,
+							color: 'blue',
+							pointing: 'left',
+							content: commentCount
+						}}
+					/>
+				</MyPopup>
 				{user && user.username === username && <DeleteButton dateId={{ _id }} />}
 			</Card.Content>
 		</Card>
