@@ -9,6 +9,7 @@ import MyPopup from './MyPopup';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
 import DeleteButton from './DeleteButton';
+import LikersList from './LikersList';
 
 const PostCard = ({
 	date: { nameString, username, description, createdAt, likes, _id, likeCount, commentCount }
@@ -43,6 +44,7 @@ const PostCard = ({
 					<CommentButton dateId={_id} commentCount={commentCount} />
 				</MyPopup>
 				{user && user.username === username && <DeleteButton dateId={{ _id }} />}
+				{user && <LikersList user={user} likes={likes} />}
 			</Card.Content>
 		</Card>
 	);
