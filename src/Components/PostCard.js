@@ -2,13 +2,12 @@ import React, { useContext } from 'react';
 import { Card, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-//import 'moment/locale/es';
+// import 'moment/locale/es';
 
 import { AuthContext } from '../Context/Auth';
 import MyPopup from './MyPopup';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
-// import DeleteButton from './DeleteButton';
 import ActionMenu from './ActionMenu';
 
 const PostCard = ({
@@ -44,7 +43,6 @@ const PostCard = ({
 					<CommentButton dateId={_id} commentCount={commentCount} />
 				</MyPopup>
 				{user && <ActionMenu dateId={{ _id }} user={user} username={username} />}
-				{/* {user && user.username === username && <DeleteButton dateId={{ _id }} />} */}
 			</Card.Content>
 		</Card>
 	);

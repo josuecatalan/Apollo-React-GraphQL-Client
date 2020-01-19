@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
-import { Grid, Transition, Form, Image, Card, Button } from 'semantic-ui-react';
+import { Grid, Transition, Form, Image, Card, Button, Popup } from 'semantic-ui-react';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart/dist-modern/index.js';
 import moment from 'moment';
-import 'moment/locale/es';
+// import 'moment/locale/es';
 
 import { AuthContext } from '../Context/Auth';
 import Loading from '../Components/Loading';
@@ -14,7 +14,7 @@ import MyPopup from '../Components/MyPopup';
 import LikeButton from '../Components/LikeButton';
 import LikersList from '../Components/LikersList';
 import CommentButton from '../Components/CommentButton';
-import DeleteButton from '../Components/DeleteButton';
+import ActionMenu from '../Components/ActionMenu';
 
 const SinglePost = props => {
 	const dateID = props.match.params.dateId;
@@ -92,8 +92,13 @@ const SinglePost = props => {
 								>
 									<CommentButton commentCount={commentCount} />
 								</MyPopup>
-								{user && user.username === username && (
-									<DeleteButton dateId={{ _id }} callback={deletePostCallback} />
+								{user && (
+									<ActionMenu
+										dateId={{ _id }}
+										user={user}
+										username={username}
+										callback={deletePostCallback}
+									/>
 								)}
 								{!user && (
 									<>
@@ -137,10 +142,13 @@ const SinglePost = props => {
 											}
 										>
 											<input />
-											<MyPopup
-												side={'right center'}
-												caller={'click'}
-												anchor={false}
+											<Popup
+												on='click'
+												inverted={false}
+												wide='very'
+												flowing={true}
+												position='right center'
+												size='tiny'
 												content={
 													<Picker
 														native
@@ -161,18 +169,19 @@ const SinglePost = props => {
 														}}
 													/>
 												}
-											>
-												<Button
-													floated='left'
-													icon={{
-														name: 'smile outline',
-														color: 'black',
-														size: 'large'
-													}}
-													size='small'
-													compact
-												/>
-											</MyPopup>
+												trigger={
+													<Button
+														floated='left'
+														icon={{
+															name: 'smile outline',
+															color: 'black',
+															size: 'large'
+														}}
+														size='small'
+														compact
+													/>
+												}
+											></Popup>
 											<Button
 												type='submit'
 												content='Submit'
@@ -188,11 +197,16 @@ const SinglePost = props => {
 							</Card>
 						)}
 						{comments.map(comment => (
-							<Transition.Group key={comment._id} animation='fadeInDown' duration={300}>
+							<Transition.Group key={comment._id} animation='fadeInDown' duration={500}>
 								<Card fluid>
 									<Card.Content>
-										{user && user.username === comment.username && (
-											<DeleteButton dateId={{ _id }} commentId={comment._id} />
+										{user && (
+											<ActionMenu
+												dateId={{ _id }}
+												commentId={comment._id}
+												user={user}
+												username={comment.username}
+											/>
 										)}
 										<Card.Header as={Link} to={`/users/${comment.username}`}>
 											{`${comment.nameString} (@${comment.username}) `}
