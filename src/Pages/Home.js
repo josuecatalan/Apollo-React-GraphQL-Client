@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { Grid, Transition } from 'semantic-ui-react';
 
 import { AuthContext } from '../Context/Auth';
-import Loading from '../Components/Loading';
+import PostPlaceholder from '../Components/PostPlaceholder';
 import PostCard from '../Components/PostCard';
 import PostForm from '../Components/PostForm';
 import { FETCH_POSTS_QUERY } from '../Utils/GraphQL';
@@ -19,7 +19,7 @@ const Home = props => {
 	}, [data]);
 
 	return (
-		<Grid columns={3} stackable={true} className={loading ? 'loading' : ''}>
+		<Grid columns={3} stackable={true}>
 			<Grid.Row className='page-title'>
 				<h1>Recent Posts</h1>
 			</Grid.Row>
@@ -30,7 +30,9 @@ const Home = props => {
 					</Grid.Column>
 				)}
 				{loading ? (
-					<Loading />
+					Array.apply(null, user ? { length: 8 } : { length: 9 }).map((e, i) => (
+						<PostPlaceholder key={i} user={user ? true : false} />
+					))
 				) : (
 					<Transition.Group animation='scale' duration={300}>
 						{dates &&

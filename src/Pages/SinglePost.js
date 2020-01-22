@@ -107,7 +107,7 @@ const SinglePost = props => {
 											compact
 											as={Link}
 											to='/login'
-											content='Login Page'
+											content='Login'
 											icon='sign in'
 											color='blue'
 										/>
@@ -115,7 +115,7 @@ const SinglePost = props => {
 											compact
 											as={Link}
 											to='/register'
-											content='Register Page'
+											content='Register'
 											icon='user plus'
 											color='green'
 										/>
