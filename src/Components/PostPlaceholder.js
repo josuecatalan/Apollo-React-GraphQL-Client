@@ -4,7 +4,7 @@ import { Grid, Placeholder, Segment, Button, Dropdown } from 'semantic-ui-react'
 const PostPlaceholder = ({ user }) => (
 	<>
 		<Grid.Column style={{ marginBottom: 20 }}>
-			<Segment fluid raised>
+			<Segment raised>
 				<Placeholder>
 					<Placeholder.Header image>
 						<Placeholder.Line length='medium' />
