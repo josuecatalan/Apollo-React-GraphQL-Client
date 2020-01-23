@@ -42,9 +42,13 @@ const LikeButton = ({ user, date: { _id, likes, likeCount } }) => {
 			<Button
 				as='div'
 				labelPosition='right'
-				onClick={() => {
-					likeDate();
-				}}
+				onClick={
+					user
+						? () => {
+								likeDate();
+						  }
+						: null
+				}
 			>
 				{likeButton}
 				<Label as='a' basic color='teal' pointing='left'>
