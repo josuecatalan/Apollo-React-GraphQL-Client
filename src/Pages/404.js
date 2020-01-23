@@ -11,14 +11,12 @@ const NotFound = ({ history }) => {
 		html: 'You will be redirected to Home page in <strong></strong> seconds.',
 		imageUrl: NotFoundImg,
 		heightAuto: true,
+		showClass: 'zoomIn',
+		hideClass: 'zoomOut',
 		width: 800,
 		imageWidth: 800,
 		imageHeight: 400,
 		imageAlt: '404 image',
-		animation: false,
-		customClass: {
-			popup: 'animated shake'
-		},
 		timer: 7000,
 		onBeforeOpen: () => {
 			Swal.showLoading();
